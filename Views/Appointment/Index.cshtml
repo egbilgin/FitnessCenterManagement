@@ -1,0 +1,35 @@
+﻿@model List<FitnessCenterManagement.Models.Entities.Appointment>
+
+<h2>Randevular</h2>
+
+<table border="1" cellpadding="5">
+    <thead>
+        <tr>
+            <th>Üye</th>
+            <th>Antrenör</th>
+            <th>Hizmet</th>
+            <th>Başlangıç</th>
+            <th>Bitiş</th>
+            <th>Durum</th>
+            <th>Fiyat</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.Member.FirstName @a.Member.LastName</td>
+                <td>@a.Trainer.FirstName @a.Trainer.LastName</td>
+                <td>@a.ServiceType.Name</td>
+                <td>@a.StartDateTime.ToString("dd.MM.yyyy HH:mm")</td>
+                <td>@a.EndDateTime.ToString("dd.MM.yyyy HH:mm")</td>
+                <td>@a.Status</td>
+                <td>@a.Price ₺</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+
+<a asp-action="Create">Yeni Randevu Oluştur</a>
