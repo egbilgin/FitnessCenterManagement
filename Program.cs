@@ -1,25 +1,56 @@
 using FitnessCenterManagement.Data;
 using FitnessCenterManagement.Services;
+using FitnessCenterManagement.Data.Seed;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+// =======================
+// DATABASE
+// =======================
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<AppointmentService>();
+// =======================
+// IDENTITY (FULL CONTROL)
+// =======================
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
 
+    // ✅ ŞİFRE KURALLARI (3 KARAKTER)
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 3;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders()
+.AddDefaultUI(); // ✅ LOGIN / REGISTER SAYFALARINI GERİ GETİRİR
+
+// =======================
+// MVC + RAZOR
+// =======================
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+
+// =======================
+// APPLICATION SERVICES
+// =======================
+builder.Services.AddScoped<AppointmentService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// =======================
+// PIPELINE
+// =======================
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
@@ -27,7 +58,6 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -36,11 +66,26 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// ✅ AUTH
+app.UseAuthentication();
 app.UseAuthorization();
 
+// =======================
+// ROUTING
+// =======================
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
+
+app.MapRazorPages(); // ✅ Identity UI için ŞART
+
+// =======================
+// SEED
+// =======================
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await SeedData.SeedRolesAndAdminAsync(services);
+}
 
 app.Run();

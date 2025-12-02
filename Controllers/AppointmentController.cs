@@ -1,14 +1,12 @@
 ﻿using FitnessCenterManagement.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
 using FitnessCenterManagement.Models.ViewModels;
-
 
 namespace FitnessCenterManagement.Controllers
 {
+    [Authorize]
     public class AppointmentController : Controller
     {
         private readonly AppointmentService _appointmentService;
@@ -18,6 +16,7 @@ namespace FitnessCenterManagement.Controllers
             _appointmentService = appointmentService;
         }
 
+        // 🔽 Dropdown'ları dolduran yardımcı metot
         private async Task FillDropdownsAsync(AppointmentCreateViewModel model)
         {
             var members = await _appointmentService.GetMembersAsync();
@@ -28,7 +27,7 @@ namespace FitnessCenterManagement.Controllers
                 .Select(m => new SelectListItem
                 {
                     Value = m.Id.ToString(),
-                    Text = m.FirstName + " " + m.LastName
+                    Text = $"{m.FirstName} {m.LastName}"
                 })
                 .ToList();
 
@@ -36,7 +35,7 @@ namespace FitnessCenterManagement.Controllers
                 .Select(t => new SelectListItem
                 {
                     Value = t.Id.ToString(),
-                    Text = t.FirstName + " " + t.LastName
+                    Text = $"{t.FirstName} {t.LastName}"
                 })
                 .ToList();
 
@@ -49,31 +48,28 @@ namespace FitnessCenterManagement.Controllers
                 .ToList();
         }
 
-
+        // 🔽 Randevu listesi (Admin + Member görebilir)
         public async Task<IActionResult> Index()
         {
             var appointments = await _appointmentService.GetAppointmentsAsync();
             return View(appointments);
         }
 
-
-
-        //create sayfasını göstreeceğiz
+        // 🔽 SADECE MEMBER randevu alabilir (GET)
+        [Authorize(Roles = "Member")]
         public async Task<IActionResult> Create()
         {
             var model = new AppointmentCreateViewModel
             {
-                RequestedStartTime = DateTime.Now.AddHours(1) // varsayılan
+                RequestedStartTime = DateTime.Now.AddHours(1)
             };
 
             await FillDropdownsAsync(model);
-
             return View(model);
         }
 
-
-
-
+        // 🔽 SADECE MEMBER randevu alabilir (POST)
+        [Authorize(Roles = "Member")]
         [HttpPost]
         public async Task<IActionResult> Create(AppointmentCreateViewModel model)
         {
@@ -87,7 +83,8 @@ namespace FitnessCenterManagement.Controllers
                 model.MemberId,
                 model.TrainerId,
                 model.ServiceTypeId,
-                model.RequestedStartTime);
+                model.RequestedStartTime
+            );
 
             if (!success)
             {
@@ -96,9 +93,7 @@ namespace FitnessCenterManagement.Controllers
                 return View(model);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
-
-
     }
 }
