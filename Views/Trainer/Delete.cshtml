@@ -1,0 +1,16 @@
+﻿@model FitnessCenterManagement.Models.Entities.Trainer
+
+<h2>Trainer Sil</h2>
+
+<p>Bu trenerı silmek istediğinize emin misiniz?</p>
+
+<div class="card p-3 mb-3">
+    <strong>@Model.FirstName @Model.LastName</strong><br />
+    Uzmanlık: @Model.Specializations
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button class="btn btn-danger">Sil</button>
+    <a asp-action="Index" class="btn btn-secondary">Vazgeç</a>
+</form>

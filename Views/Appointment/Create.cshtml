@@ -4,48 +4,49 @@
     ViewData["Title"] = "Randevu Oluştur";
 }
 
-<h2>Randevu Oluştur</h2>
+<h2 class="mb-4">Randevu Oluştur</h2>
 
-<form asp-action="Create" method="post">
+<form asp-action="Create" method="post" class="w-50">
 
-    <div>
-        <label>Üye</label><br />
-        <select asp-for="MemberId" asp-items="Model.Members">
-            <option value="">-- Üye seçin --</option>
-        </select>
-    </div>
+    <!-- 🔥 SADECE ADMIN İÇİN GÖRÜNÜR -->
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="mb-3">
+            <label class="form-label">Üye Seç</label>
+            <select asp-for="MemberId" class="form-select" asp-items="Model.Members">
+                <option value="">-- Üye seçin --</option>
+            </select>
+        </div>
+    }
 
-    <br />
-
-    <div>
-        <label>Antrenör</label><br />
-        <select asp-for="TrainerId" asp-items="Model.Trainers">
+    <div class="mb-3">
+        <label class="form-label">Antrenör</label>
+        <select asp-for="TrainerId" class="form-select" asp-items="Model.Trainers">
             <option value="">-- Antrenör seçin --</option>
         </select>
     </div>
 
-    <br />
-
-    <div>
-        <label>Hizmet</label><br />
-        <select asp-for="ServiceTypeId" asp-items="Model.ServiceTypes">
+    <div class="mb-3">
+        <label class="form-label">Hizmet</label>
+        <select asp-for="ServiceTypeId" class="form-select" asp-items="Model.ServiceTypes">
             <option value="">-- Hizmet seçin --</option>
         </select>
     </div>
 
-    <br />
-
-    <div>
-        <label>Başlangıç Tarih & Saat</label><br />
-        <input asp-for="RequestedStartTime" type="datetime-local" />
+    <div class="mb-3">
+        <label class="form-label">Başlangıç Tarih & Saat</label>
+        <input asp-for="RequestedStartTime"
+               type="datetime-local"
+               class="form-control"
+               value="@Model.RequestedStartTime.ToString("yyyy-MM-ddTHH:mm")" />
     </div>
 
-    <br />
-
-    <button type="submit">Randevu Oluştur</button>
+    <button type="submit" class="btn btn-primary">Randevu Oluştur</button>
 </form>
 
 @if (!ViewData.ModelState.IsValid)
 {
-    <p style="color:red;">Randevu oluşturulamadı.</p>
+    <div class="alert alert-danger mt-3">
+        Randevu oluşturulamadı.
+    </div>
 }

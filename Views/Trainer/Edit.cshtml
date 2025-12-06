@@ -1,0 +1,31 @@
+﻿@model FitnessCenterManagement.Models.Entities.Trainer
+
+<h2>Trainer Güncelle</h2>
+
+<form asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
+    <!-- ID gizli alan (KESİNLİKLE OLMALI) -->
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label class="form-label">Ad</label>
+        <input asp-for="FirstName" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Soyad</label>
+        <input asp-for="LastName" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Uzmanlıklar</label>
+        <input asp-for="Specializations" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Aktif Mi?</label>
+        <input asp-for="IsActive" type="checkbox" class="form-check-input" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Güncelle</button>
+</form>

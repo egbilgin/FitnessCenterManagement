@@ -27,7 +27,7 @@ namespace FitnessCenterManagement.Data.Seed
             // ADMIN USER
             // ======================
             string adminEmail = "b231210027@sakarya.edu.tr";
-            string adminPassword = "sau";
+            string adminPassword = "Sau123!";
 
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
