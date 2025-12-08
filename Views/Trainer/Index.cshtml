@@ -30,8 +30,17 @@
                 <td>@t.LastName</td>
                 <td>@t.Specializations</td>
                 <td>@(t.IsActive ? "Aktif" : "Pasif")</td>
+                <td>@t.Gym?.Name</td>
+
                 <td>
                     <a asp-action="Edit" asp-route-id="@t.Id" class="btn btn-warning btn-sm">Düzenle</a>
+                    <a asp-controller="TrainerAvailability"
+                       asp-action="Index"
+                       asp-route-trainerId="@t.Id"
+                       class="btn btn-info btn-sm">
+                        Müsaitlik Yönet
+                    </a>
+
                     <a asp-action="Delete" asp-route-id="@t.Id" class="btn btn-danger btn-sm">Sil</a>
                 </td>
             </tr>

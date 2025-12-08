@@ -1,0 +1,31 @@
+﻿@model FitnessCenterManagement.Models.Entities.TrainerAvailability
+
+<h2>Müsaitlik Ekle</h2>
+
+<div asp-validation-summary="All" class="alert alert-danger"></div>
+
+<form asp-action="Create" method="post">
+    <input type="hidden" asp-for="TrainerId" />
+
+    <div class="mb-3">
+        <label>Gün</label>
+        <select asp-for="DayOfWeek" class="form-select">
+            @foreach (int d in Enum.GetValues(typeof(DayOfWeek)))
+            {
+                <option value="@d">@((DayOfWeek)d)</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Başlangıç Saati</label>
+        <input asp-for="StartTime" type="time" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Bitiş Saati</label>
+        <input asp-for="EndTime" type="time" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Kaydet</button>
+</form>

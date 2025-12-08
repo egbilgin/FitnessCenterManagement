@@ -1,0 +1,32 @@
+﻿@model List<FitnessCenterManagement.Models.Entities.TrainerAvailability>
+
+<h2>@ViewBag.Trainer.FirstName @ViewBag.Trainer.LastName - Müsaitlik Saatleri</h2>
+
+<a class="btn btn-primary"
+   asp-action="Create"
+   asp-route-trainerId="@ViewBag.Trainer.Id">
+    Yeni Saat Ekle
+</a>
+
+<table class="table table-bordered mt-3">
+    <tr>
+        <th>Gün</th>
+        <th>Başlangıç</th>
+        <th>Bitiş</th>
+        <th></th>
+    </tr>
+
+    @foreach (var a in Model)
+    {
+        <tr>
+            <td>@((DayOfWeek)a.DayOfWeek)</td>
+            <td>@a.StartTime</td>
+            <td>@a.EndTime</td>
+            <td>
+                <a asp-action="Delete" asp-route-id="@a.Id" class="btn btn-danger btn-sm">
+                    Sil
+                </a>
+            </td>
+        </tr>
+    }
+</table>

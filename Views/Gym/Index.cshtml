@@ -1,0 +1,33 @@
+﻿@model List<FitnessCenterManagement.Models.Entities.Gym>
+
+<h2>Salonlar</h2>
+
+
+<a class="btn btn-primary mb-3" asp-action="Create">Yeni Salon Ekle</a>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Ad</th>
+            <th>Adres</th>
+            <th>Açılış</th>
+            <th>Kapanış</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var g in Model)
+        {
+            <tr>
+                <td>@g.Name</td>
+                <td>@g.Address</td>
+                <td>@g.OpeningTime</td>
+                <td>@g.ClosingTime</td>
+                <td>
+                    <a class="btn btn-warning btn-sm" asp-action="Edit" asp-route-id="@g.Id">Düzenle</a>
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@g.Id">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

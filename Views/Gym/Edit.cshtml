@@ -1,0 +1,29 @@
+﻿@model FitnessCenterManagement.Models.Entities.Gym
+
+<h2>Salon Düzenle</h2>
+<div asp-validation-summary="All" class="alert alert-danger"></div>
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label>Ad</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Adres</label>
+        <input asp-for="Address" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Açılış Saati</label>
+        <input asp-for="OpeningTime" type="time" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Kapanış Saati</label>
+        <input asp-for="ClosingTime" type="time" class="form-control" />
+    </div>
+
+    <button class="btn btn-warning" type="submit">Güncelle</button>
+</form>

@@ -20,3 +20,12 @@ html {
 body {
   margin-bottom: 60px;
 }
+/* ModelState hatasý yokken validation summary gizlensin */
+.validation-summary-valid {
+    display: none;
+}
+
+/* Hata varken görünür olsun */
+.validation-summary-errors {
+    display: block;
+}

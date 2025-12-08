@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace FitnessCenterManagement.Models.Entities
@@ -28,9 +29,11 @@ namespace FitnessCenterManagement.Models.Entities
         public bool IsActive { get; set; } = true;
 
         // Navigation Properties
-        public Gym Gym { get; set; }
+        public Gym? Gym { get; set; }
 
+        [ValidateNever]
         public ICollection<TrainerService> TrainerServices { get; set; }
+        [ValidateNever]
         public ICollection<TrainerAvailability> Availabilities { get; set; }
     }
 }

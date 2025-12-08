@@ -1,0 +1,35 @@
+﻿@model FitnessCenterManagement.Models.Entities.ServiceType
+
+<h2>Yeni Hizmet Ekle</h2>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-action="Create" method="post">
+
+    <div class="mb-3">
+        <label>Salon</label>
+        <select asp-for="GymId" class="form-select" asp-items="ViewBag.Gyms"></select>
+    </div>
+
+    <div class="mb-3">
+        <label>Hizmet Adı</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Açıklama</label>
+        <input asp-for="Description" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Süre (dk)</label>
+        <input asp-for="DurationMinutes" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Fiyat</label>
+        <input asp-for="Price" class="form-control" />
+    </div>
+
+    <button class="btn btn-success">Kaydet</button>
+</form>

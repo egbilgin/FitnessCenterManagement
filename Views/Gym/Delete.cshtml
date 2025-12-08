@@ -1,0 +1,10 @@
+﻿@model FitnessCenterManagement.Models.Entities.Gym
+
+<h2>Salon Sil</h2>
+
+<p><strong>@Model.Name</strong> salonunu silmek istediğinize emin misiniz?</p>
+
+<form asp-action="Delete" method="post">
+    <button type="submit" class="btn btn-danger">Sil</button>
+    <a asp-action="Index" class="btn btn-secondary">İptal</a>
+</form>

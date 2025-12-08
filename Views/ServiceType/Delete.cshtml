@@ -1,0 +1,16 @@
+﻿@model FitnessCenterManagement.Models.Entities.ServiceType
+
+<h2>Hizmeti Sil</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<p><strong>@Model.Name</strong> adlı hizmeti silmek istediğinize emin misiniz?</p>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button class="btn btn-danger">Sil</button>
+    <a asp-action="Index" class="btn btn-secondary">İptal</a>
+</form>

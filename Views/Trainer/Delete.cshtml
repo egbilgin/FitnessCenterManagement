@@ -1,16 +1,19 @@
 ﻿@model FitnessCenterManagement.Models.Entities.Trainer
 
-<h2>Trainer Sil</h2>
+<h2>Eğitmen Sil</h2>
 
-<p>Bu trenerı silmek istediğinize emin misiniz?</p>
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
 
 <div class="card p-3 mb-3">
-    <strong>@Model.FirstName @Model.LastName</strong><br />
-    Uzmanlık: @Model.Specializations
+    <h4>@Model.FirstName @Model.LastName</h4>
+    <p><strong>Uzmanlık:</strong> @Model.Specializations</p>
 </div>
 
-<form asp-action="Delete" method="post">
-    <input type="hidden" asp-for="Id" />
-    <button class="btn btn-danger">Sil</button>
-    <a asp-action="Index" class="btn btn-secondary">Vazgeç</a>
-</form>
+<p>Bu eğitmen mevcut randevulara bağlı olduğu için <strong>silinemez</strong>.</p>
+
+<a asp-action="Index" class="btn btn-secondary">Geri Dön</a>
