@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace FitnessCenterManagement.Models.Entities
-{
+{//namespace fitness
     public class AiRecommendationRequest
     {
         // Primary Key
