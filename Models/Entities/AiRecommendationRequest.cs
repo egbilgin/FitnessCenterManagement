@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-
+//deneme
 namespace FitnessCenterManagement.Models.Entities
 {//namespace fitness
     public class AiRecommendationRequest
