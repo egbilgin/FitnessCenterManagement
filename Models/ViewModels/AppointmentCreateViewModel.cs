@@ -8,6 +8,9 @@ namespace FitnessCenterManagement.Models.ViewModels
     {
         // Admin için dropdown ile seçilecek
         // Member için sistem otomatik dolduracak
+
+
+       // [Required(ErrorMessage = "Üye seçilmelidir.")]
         public int MemberId { get; set; }
 
         public int TrainerId { get; set; }

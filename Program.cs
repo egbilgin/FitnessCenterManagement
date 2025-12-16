@@ -29,6 +29,8 @@ builder.Services
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.AddSingleton<GeminiAiService>();
+
 
 // =======================
 // MVC + RAZOR

@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "Yapay Zeka Egzersiz & Diyet Planı";
+}
+
+<h2>Yapay Zeka Destekli Egzersiz & Diyet Önerisi</h2>
+
+<form method="post" class="w-50">
+    <div class="mb-3">
+        <label>Boy (cm)</label>
+        <input type="number" name="heightCm" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label>Kilo (kg)</label>
+        <input type="number" name="weightKg" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label>Hedef</label>
+        <select name="goal" class="form-select">
+            <option>Kilo Vermek</option>
+            <option>Kas Kazanmak</option>
+            <option>Formda Kalmak</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Yapay Zeka'dan Öneri Al
+    </button>
+</form>
+
+@if (ViewBag.Result != null)
+{
+    <hr />
+    <h4>Yapay Zeka Önerisi</h4>
+    <pre>@ViewBag.Result</pre>
+}

@@ -27,7 +27,7 @@ namespace FitnessCenterManagement.Models.Entities
         [Range(0, 10000)]
         public decimal Price { get; set; }
 
-        public Gym Gym { get; set; }
-        public ICollection<TrainerService> TrainerServices { get; set; }
+        public Gym? Gym { get; set; }
+        public ICollection<TrainerService>? TrainerServices { get; set; }
     }
 }

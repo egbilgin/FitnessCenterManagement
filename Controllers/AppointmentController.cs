@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using FitnessCenterManagement.Models.Enums;
 
-//15 aralık
 namespace FitnessCenterManagement.Controllers
 {
     [Authorize]
@@ -111,46 +111,133 @@ namespace FitnessCenterManagement.Controllers
         // CREATE — Randevu kayıt
         // ---------------------------------------
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AppointmentCreateViewModel model)
         {
+            // 1️⃣ Model validation
             if (!ModelState.IsValid)
             {
                 await FillDropdownsAsync(model);
                 return View(model);
             }
 
-            // MEMBER → MemberId DB’den otomatik bulunur
+            // 2️⃣ MEMBER rolü → otomatik MemberId
             if (User.IsInRole("Member"))
             {
                 var user = await _userManager.GetUserAsync(User);
-                var member = await _context.Members.FirstOrDefaultAsync(m => m.UserId == user.Id);
+
+                var member = await _context.Members
+                    .FirstOrDefaultAsync(m => m.UserId == user.Id);
 
                 if (member == null)
                 {
-                    ModelState.AddModelError("", "Üye kaydı bulunamadı.");
-                    return View(model);
+                    member = new Member
+                    {
+                        UserId = user.Id,
+                        FirstName = user.UserName,
+                        LastName = "Member"
+                    };
+
+                    _context.Members.Add(member);
+                    await _context.SaveChangesAsync();
                 }
 
-                model.MemberId = member.Id;  // 🔥 OTOMATİK MEMBER ID
+                model.MemberId = member.Id;
             }
 
-            // ADMIN → dropdown’dan gelen MemberId zaten hazır
+            // 3️⃣ ADMIN → MemberId doğrulaması
+            if (User.IsInRole("Admin"))
+            {
+                bool memberExists = await _context.Members
+                    .AnyAsync(m => m.Id == model.MemberId);
 
-            bool success = await _appointmentService.CreateAppointmentAsync(
+                if (!memberExists)
+                {
+                    ModelState.AddModelError("", "Geçerli bir üye seçilmedi.");
+                    await FillDropdownsAsync(model);
+                    return View(model);
+                }
+            }
+
+            // 4️⃣ SON SAVUNMA
+            if (model.MemberId <= 0)
+            {
+                ModelState.AddModelError("", "Geçerli bir üye bulunamadı.");
+                await FillDropdownsAsync(model);
+                return View(model);
+            }
+
+            // 5️⃣ SERVICE ÇAĞRISI
+            var result = await _appointmentService.CreateAppointmentAsync(
                 model.MemberId,
                 model.TrainerId,
                 model.ServiceTypeId,
                 model.RequestedStartTime
             );
 
-            if (!success)
+            switch (result)
             {
-                ModelState.AddModelError("", "Randevu oluşturulamadı.");
-                await FillDropdownsAsync(model);
-                return View(model);
+                case AppointmentCreateResult.PastDate:
+                    ModelState.AddModelError("", "Geçmiş tarihe randevu alınamaz.");
+                    break;
+
+                case AppointmentCreateResult.ServiceNotFound:
+                    ModelState.AddModelError("", "Seçilen hizmet bulunamadı.");
+                    break;
+
+                case AppointmentCreateResult.InvalidDuration:
+                    ModelState.AddModelError("", "Hizmet süresi geçersiz.");
+                    break;
+
+                case AppointmentCreateResult.TrainerConflict:
+                    ModelState.AddModelError("", "Eğitmen bu saat aralığında dolu.");
+                    break;
+
+                case AppointmentCreateResult.MemberConflict:
+                    ModelState.AddModelError("", "Bu saatlerde başka bir randevunuz var.");
+                    break;
+
+                case AppointmentCreateResult.Success:
+                    return RedirectToAction(nameof(Index));
             }
+
+            await FillDropdownsAsync(model);
+            return View(model);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Approve(int id)
+        {
+            var appointment = await _context.Appointments.FindAsync(id);
+            if (appointment == null)
+                return NotFound();
+
+            // Sadece beklemede olan randevu onaylanabilir
+            if (appointment.Status != AppointmentStatus.Pending)
+                return RedirectToAction(nameof(Index));
+
+            appointment.Status = AppointmentStatus.Approved;
+            await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Reject(int id)
+        {
+            var appointment = await _context.Appointments.FindAsync(id);
+            if (appointment == null)
+                return NotFound();
+
+            // Sadece beklemede olan randevu iptal edilebilir
+            if (appointment.Status != AppointmentStatus.Pending)
+                return RedirectToAction(nameof(Index));
+
+            appointment.Status = AppointmentStatus.Cancelled;
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
     }
 }

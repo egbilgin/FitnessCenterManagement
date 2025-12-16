@@ -36,11 +36,13 @@ namespace FitnessCenterManagement.Models.Entities
         public decimal Price { get; set; }
 
         [StringLength(250)]
-        public string Notes { get; set; }
+        public string? Notes { get; set; }
 
         // Navigation Properties
         public Member Member { get; set; }
         public Trainer Trainer { get; set; }
         public ServiceType ServiceType { get; set; }
+
+
     }
 }

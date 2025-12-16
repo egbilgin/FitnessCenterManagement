@@ -1,5 +1,9 @@
+﻿# Ignore development settings
+appsettings.Development.json
+
+# Ignore environment files
+.env
+
+# Ignore build folders
 bin/
 obj/
-.vs/
-*.user
-*.suo

@@ -6,16 +6,18 @@
 
 <h2 class="mb-4">Randevu Oluştur</h2>
 
+<div asp-validation-summary="All" class="alert alert-danger"></div>
+
 <form asp-action="Create" method="post" class="w-50">
 
-    <!-- 🔥 SADECE ADMIN İÇİN GÖRÜNÜR -->
     @if (User.IsInRole("Admin"))
     {
         <div class="mb-3">
-            <label class="form-label">Üye Seç</label>
+            <label asp-for="MemberId" class="form-label">Üye Seç</label>
             <select asp-for="MemberId" class="form-select" asp-items="Model.Members">
                 <option value="">-- Üye seçin --</option>
             </select>
+            <span asp-validation-for="MemberId" class="text-danger"></span>
         </div>
     }
 
@@ -24,6 +26,7 @@
         <select asp-for="TrainerId" class="form-select" asp-items="Model.Trainers">
             <option value="">-- Antrenör seçin --</option>
         </select>
+        <span asp-validation-for="TrainerId" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
@@ -31,6 +34,7 @@
         <select asp-for="ServiceTypeId" class="form-select" asp-items="Model.ServiceTypes">
             <option value="">-- Hizmet seçin --</option>
         </select>
+        <span asp-validation-for="ServiceTypeId" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
@@ -39,14 +43,8 @@
                type="datetime-local"
                class="form-control"
                value="@Model.RequestedStartTime.ToString("yyyy-MM-ddTHH:mm")" />
+        <span asp-validation-for="RequestedStartTime" class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn btn-primary">Randevu Oluştur</button>
 </form>
-
-@if (!ViewData.ModelState.IsValid)
-{
-    <div class="alert alert-danger mt-3">
-        Randevu oluşturulamadı.
-    </div>
-}

@@ -28,7 +28,7 @@ namespace FitnessCenterManagement.Models.Entities
         public int? WeightKg { get; set; }
 
         [StringLength(250)]
-        public string Goal { get; set; }
+        public string? Goal { get; set; }
 
         // Navigation Properties
         public ICollection<Appointment> Appointments { get; set; }
