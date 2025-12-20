@@ -1,0 +1,96 @@
+﻿@model FitnessCenterManagement.Areas.Admin.ViewModels.DashboardViewModel
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2 class="mb-4">Admin Dashboard</h2>
+
+<div class="row g-4">
+
+    <!-- TOPLAM ÜYE -->
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <h6 class="text-muted">Toplam Üye</h6>
+                <h3 class="fw-bold">@Model.TotalMembers</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOPLAM RANDEVU -->
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <h6 class="text-muted">Toplam Randevu</h6>
+                <h3 class="fw-bold">@Model.TotalAppointments</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- BUGÜNKÜ RANDEVULAR -->
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <h6 class="text-muted">Bugünkü Randevular</h6>
+                <h3 class="fw-bold">@Model.TodayAppointments</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- AKTİF TRAINER -->
+    <div class="col-md-3">
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <h6 class="text-muted">Aktif Trainer</h6>
+                <h3 class="fw-bold">@Model.ActiveTrainers</h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<hr class="my-4" />
+
+<h5 class="mb-3">Hızlı İşlemler</h5>
+
+<div class="row g-3">
+
+    <div class="col-md-3">
+        <a asp-area=""
+           asp-controller="Appointment"
+           asp-action="Index"
+           class="btn btn-outline-primary w-100">
+            Randevuları Yönet
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a asp-area=""
+           asp-controller="Trainer"
+           asp-action="Index"
+           class="btn btn-outline-secondary w-100">
+            Trainer Yönetimi
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a asp-area=""
+           asp-controller="ServiceType"
+           asp-action="Index"
+           class="btn btn-outline-success w-100">
+            Hizmetler
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a asp-area=""
+           asp-controller="Gym"
+           asp-action="Index"
+           class="btn btn-outline-dark w-100">
+            Salonlar
+        </a>
+    </div>
+
+</div>

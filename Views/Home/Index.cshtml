@@ -1,8 +1,92 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Ana Sayfa";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- HERO SECTION -->
+<section class="bg-dark text-white py-5">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold">
+            Fitness Center Management System
+        </h1>
+
+        <p class="lead mt-3">
+            Üyeler, eğitmenler ve spor salonları için
+            merkezi ve profesyonel yönetim platformu
+        </p>
+
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <a asp-area="Identity"
+               asp-page="/Account/Login"
+               class="btn btn-primary btn-lg mt-4">
+                Sisteme Giriş Yap
+            </a>
+        }
+        else
+        {
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="btn btn-success btn-lg mt-4">
+                Dashboard’a Git
+            </a>
+        }
+    </div>
+</section>
+
+<!-- FEATURES / ROLE SECTIONS -->
+<section class="container my-5">
+    <div class="row g-4 text-center">
+
+        <!-- MEMBER -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">👤 Üyeler</h3>
+                    <p class="card-text">
+                        Randevu oluştur, antrenmanlarını takip et,
+                        eğitmenlerinle kolayca iletişim kur.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TRAINER -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">🏋️ Eğitmenler</h3>
+                    <p class="card-text">
+                        Müsaitliklerini yönet, randevuları görüntüle
+                        ve üyelerinle planlı çalış.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN -->
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">⚙️ Yöneticiler</h3>
+                    <p class="card-text">
+                        Salon, hizmet, eğitmen ve randevu yönetimini
+                        tek panelden kontrol et.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- INFO SECTION -->
+<section class="bg-light py-5">
+    <div class="container text-center">
+        <h2 class="fw-bold">Neden Bu Sistem?</h2>
+        <p class="mt-3 text-muted">
+            Fitness Center Management System; ölçeklenebilir,
+            rol bazlı yetkilendirmeye sahip ve
+            ASP.NET Core Identity altyapısı ile güvenlidir.
+        </p>
+    </div>
+</section>

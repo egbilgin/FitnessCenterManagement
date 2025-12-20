@@ -1,34 +1,36 @@
-﻿using FitnessCenterManagement.Services;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace FitnessCenterManagement.Controllers
 {
     public class AiController : Controller
     {
-        private readonly GeminiAiService _geminiAiService;
-
-        public AiController(GeminiAiService geminiAiService)
-        {
-            _geminiAiService = geminiAiService;
-        }
-
-        // FORM
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-        // FORM SUBMIT
         [HttpPost]
-        public async Task<IActionResult> Index(
-            int heightCm,
-            int weightKg,
-            string goal)
+        public IActionResult Index(int height, int weight, string goal)
         {
-            var result = await _geminiAiService
-                .GenerateWorkoutAndDietPlan(heightCm, weightKg, goal);
+            // 1️⃣ BASİT EGZERSİZ ÖNERİSİ (MINIMUM)
+            string plan = goal switch
+            {
+                "zayıflama" => "Haftada 4 gün kardiyo, yürüyüş ve plank egzersizleri önerilir.",
+                "kas" => "Ağırlık çalışmaları, squat, bench press ve protein ağırlıklı beslenme önerilir.",
+                _ => "Dengeli kardiyo ve vücut ağırlığı egzersizleri önerilir."
+            };
 
-            ViewBag.Result = result;
+            ViewBag.Plan = plan;
+
+            // 2️⃣ YAPAY ZEKA GÖRSELİ
+            string prompt =
+                $"realistic fitness body, {goal}, height {height}cm, weight {weight}kg, gym, high quality photo";
+
+            ViewBag.ImageUrl =
+                $"https://image.pollinations.ai/prompt/{WebUtility.UrlEncode(prompt)}";
+
             return View();
         }
     }

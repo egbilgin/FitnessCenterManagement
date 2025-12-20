@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,74 +18,116 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
 
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+            <!-- LOGO / BRAND -->
+            <a class="navbar-brand fw-bold"
+               asp-controller="Home"
+               asp-action="Index">
                 Fitness Center
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            <button class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
                     data-bs-target="#mainNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="mainNavbar">
+
+                <!-- SOL MENÜ -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-                    <!-- 🔹 ADMIN MENÜSÜ -->
+                    <!-- HERKES -->
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           asp-controller="Home"
+                           asp-action="Index">
+                            Ana Sayfa
+                        </a>
+                    </li>
+
+                    <!-- ADMIN MENÜ -->
                     @if (User.IsInRole("Admin"))
                     {
-                        <!-- Randevu yönetimi -->
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Appointment" asp-action="Index">Tüm Randevular</a>
+                            <a class="nav-link"
+                               asp-controller="Appointment"
+                               asp-action="Index">
+                                Tüm Randevular
+                            </a>
                         </li>
 
-                        <!-- Trainer CRUD -->
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Trainer" asp-action="Index">Trainer Yönetimi</a>
+                            <a class="nav-link"
+                               asp-controller="Trainer"
+                               asp-action="Index">
+                                Trainer Yönetimi
+                            </a>
                         </li>
 
-                        <!-- ServiceType CRUD -->
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="ServiceType" asp-action="Index">Hizmet Yönetimi</a>
+                            <a class="nav-link"
+                               asp-controller="ServiceType"
+                               asp-action="Index">
+                                Hizmet Yönetimi
+                            </a>
                         </li>
 
-                        <!-- Gym CRUD -->
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Gym" asp-action="Index">Salon Yönetimi</a>
+                            <a class="nav-link"
+                               asp-controller="Gym"
+                               asp-action="Index">
+                                Salon Yönetimi
+                            </a>
                         </li>
                     }
 
-                    <!-- 🔹 MEMBER MENÜSÜ -->
+                    <!-- MEMBER MENÜ -->
                     @if (User.IsInRole("Member"))
                     {
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Appointment" asp-action="Create">Randevu Oluştur</a>
+                            <a class="nav-link"
+                               asp-controller="Appointment"
+                               asp-action="Create">
+                                Randevu Oluştur
+                            </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Appointment" asp-action="Index">Randevularım</a>
+                            <a class="nav-link"
+                               asp-controller="Appointment"
+                               asp-action="Index">
+                                Randevularım
+                            </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Ai" asp-action="Index">Yapay Zeka</a>
+                        </li>
+
                     }
 
                 </ul>
 
-                <!-- Login / Logout -->
+                <!-- SAĞ MENÜ : LOGIN / LOGOUT -->
                 <partial name="_LoginPartial" />
+
             </div>
         </div>
     </nav>
 
-    <div class="container mt-4">
+    <!-- CONTENT -->
+    <main class="container mt-4">
         @RenderBody()
-    </div>
+    </main>
 
-    <footer class="border-top footer text-muted mt-5">
+    <!-- FOOTER -->
+    <footer class="border-top footer text-muted mt-5 py-3">
         <div class="container text-center">
             &copy; 2025 - FitnessCenterManagement
         </div>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)

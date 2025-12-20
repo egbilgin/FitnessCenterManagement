@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - Admin Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" />
+
+    <style>
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            background: linear-gradient(180deg, #0d6efd, #0a58ca);
+            color: #fff;
+        }
+
+        .sidebar-header {
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 12px 20px;
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+            .sidebar a:hover {
+                background-color: rgba(255,255,255,0.15);
+                color: #fff;
+            }
+
+            .sidebar a.active {
+                background-color: rgba(255,255,255,0.25);
+                color: #fff;
+            }
+
+        .content {
+            padding: 30px;
+            background-color: #f4f6f9;
+            min-height: 100vh;
+        }
+
+        .logout-btn {
+            border: none;
+            background: transparent;
+            color: #ffdddd;
+            padding: 12px 20px;
+            width: 100%;
+            text-align: left;
+        }
+
+            .logout-btn:hover {
+                background-color: rgba(255,255,255,0.15);
+                color: #fff;
+            }
+    </style>
+</head>
+
+<body>
+
+    <div class="d-flex">
+
+        <!-- SIDEBAR -->
+        <div class="sidebar">
+            <h4 class="text-white px-3 py-3">Fitness Admin</h4>
+
+            <ul class="nav flex-column">
+
+                <!-- Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link text-white"
+                       asp-area="Admin"
+                       asp-controller="Dashboard"
+                       asp-action="Index">
+                        📊 Dashboard
+                    </a>
+                </li>
+
+                <!-- Randevular -->
+                <li class="nav-item">
+                    <a class="nav-link text-white"
+                       asp-area=""
+                       asp-controller="Appointment"
+                       asp-action="Index">
+                        📅 Randevular
+                    </a>
+                </li>
+
+                <!-- Trainer Yönetimi -->
+                <li class="nav-item">
+                    <a class="nav-link text-white"
+                       asp-area=""
+                       asp-controller="Trainer"
+                       asp-action="Index">
+                        🧑‍🏫 Trainer Yönetimi
+                    </a>
+                </li>
+
+                <!-- Hizmetler -->
+                <li class="nav-item">
+                    <a class="nav-link text-white"
+                       asp-area=""
+                       asp-controller="ServiceType"
+                       asp-action="Index">
+                        🛠 Hizmetler
+                    </a>
+                </li>
+
+                <!-- Salonlar -->
+                <li class="nav-item">
+                    <a class="nav-link text-white"
+                       asp-area=""
+                       asp-controller="Gym"
+                       asp-action="Index">
+                        🏢 Salonlar
+                    </a>
+                </li>
+
+                <hr class="text-white my-3" />
+
+                <!-- ÇIKIŞ -->
+                <li class="nav-item px-3">
+                    <form asp-area="Identity"
+                          asp-page="/Account/Logout"
+                          method="post">
+                        <button type="submit"
+                                class="btn btn-outline-light w-100">
+                            🚪 Çıkış Yap
+                        </button>
+                    </form>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <!-- CONTENT -->
+        <div class="flex-grow-1 content">
+            @RenderBody()
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,37 +1,51 @@
 ﻿@{
-    ViewData["Title"] = "Yapay Zeka Egzersiz & Diyet Planı";
+    ViewData["Title"] = "Yapay Zeka Asistanı";
 }
 
-<h2>Yapay Zeka Destekli Egzersiz & Diyet Önerisi</h2>
+<h3>Yapay Zeka Fitness Asistanı</h3>
 
-<form method="post" class="w-50">
-    <div class="mb-3">
-        <label>Boy (cm)</label>
-        <input type="number" name="heightCm" class="form-control" required />
+<form method="post" class="row g-3 mb-4">
+
+    <div class="col-md-4">
+        <label class="form-label">Boy (cm)</label>
+        <input type="number" name="height" class="form-control" required />
     </div>
 
-    <div class="mb-3">
-        <label>Kilo (kg)</label>
-        <input type="number" name="weightKg" class="form-control" required />
+    <div class="col-md-4">
+        <label class="form-label">Kilo (kg)</label>
+        <input type="number" name="weight" class="form-control" required />
     </div>
 
-    <div class="mb-3">
-        <label>Hedef</label>
+    <div class="col-md-4">
+        <label class="form-label">Hedef</label>
         <select name="goal" class="form-select">
-            <option>Kilo Vermek</option>
-            <option>Kas Kazanmak</option>
-            <option>Formda Kalmak</option>
+            <option value="zayıflama">Zayıflama</option>
+            <option value="kas">Kas Geliştirme</option>
+            <option value="fit">Fit Görünüm</option>
         </select>
     </div>
 
-    <button type="submit" class="btn btn-primary">
-        Yapay Zeka'dan Öneri Al
-    </button>
+    <div class="col-12">
+        <button class="btn btn-primary">
+            Yapay Zeka Önerisi Al
+        </button>
+    </div>
 </form>
 
-@if (ViewBag.Result != null)
+@if (ViewBag.Plan != null)
 {
     <hr />
-    <h4>Yapay Zeka Önerisi</h4>
-    <pre>@ViewBag.Result</pre>
+
+    <h5>Önerilen Egzersiz Planı</h5>
+    <p>@ViewBag.Plan</p>
+
+    <h5 class="mt-3">Tahmini Görünüm</h5>
+
+    <img src="@ViewBag.ImageUrl"
+         class="img-fluid rounded shadow"
+         alt="AI Fitness Result" />
+
+    <p class="text-muted mt-2">
+        * Görsel yapay zekâ tarafından oluşturulmuş temsili bir simülasyondur.
+    </p>
 }
